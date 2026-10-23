@@ -1,16 +1,12 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables from the root .env file
-ENV_FILE = BASE_DIR.parent / '.env'
-if ENV_FILE.is_file():
-    for line in ENV_FILE.read_text().splitlines():
-        line = line.strip()
-        if line and not line.startswith('#') and '=' in line:
-            key, value = line.split('=', 1)
-            os.environ.setdefault(key.strip(), value.strip().strip('\"\''))
+# Load environment variables from .env file if it exists
+# In Docker, env vars are injected by docker-compose env_file
+load_dotenv(BASE_DIR.parent / '.env', override=False)
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-secret-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
@@ -82,4 +78,5 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+
 ROOT_URLCONF = 'core.urls'
