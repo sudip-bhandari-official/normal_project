@@ -6,8 +6,8 @@ A full-stack note-taking web application featuring JWT authentication, user-isol
 
 1. **Clone the repository and configure environment variables:**
    ```bash
-   git clone <YOUR_GITHUB_REPO_URL>
-   cd django-react-notes
+   git clone https://github.com/sudip-bhandari-official/normal_project.git
+   cd normal_project
    cp .env.example .env
    ```
 
