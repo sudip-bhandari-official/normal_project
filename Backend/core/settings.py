@@ -10,7 +10,16 @@ load_dotenv(BASE_DIR.parent / '.env', override=False)
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-secret-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = ['*']
+
+DOMAIN_NAME = os.getenv('DOMAIN_NAME', 'localhost')
+API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:8000/api')
+
+ALLOWED_HOSTS = [
+    DOMAIN_NAME,
+    'localhost',
+    '127.0.0.1',
+    ]
+
 STATIC_URL = 'static/'
 
 INSTALLED_APPS = [
@@ -75,6 +84,7 @@ TEMPLATES = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    f"http://{DOMAIN_NAME}:5173"
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://65.2.57.36:5173", # EC2 IP
