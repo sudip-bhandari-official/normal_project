@@ -84,7 +84,7 @@ TEMPLATES = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    f"http://{DOMAIN_NAME}:5173"
+    f"http://{DOMAIN_NAME}:5173",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://65.2.57.36:5173", # EC2 IP
