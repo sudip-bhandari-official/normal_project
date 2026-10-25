@@ -14,7 +14,12 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 DOMAIN_NAME = os.getenv('DOMAIN_NAME', 'localhost')
 API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:8000/api')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [    
+    'notes.sudip010.com.np',
+    'localhost',
+    '127.0.0.1',
+    '*',
+]
 
 STATIC_URL = 'static/'
 
