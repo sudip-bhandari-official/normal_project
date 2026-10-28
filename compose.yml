@@ -10,7 +10,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    image: ${{ secrets.DOCKER_USERNAME }}/notes-backend:latest
+    image: ${DOCKER_USERNAME}/notes-backend:latest
     container_name: notes_django_backend
     env_file:
       - .env
@@ -20,7 +20,7 @@ services:
       - db
 
   frontend:
-    image: ${{ secrets.DOCKER_USERNAME }}/notes-frontend:latest
+    image: ${DOCKER_USERNAME}/notes-frontend:latest
     container_name: notes_react_frontend
     env_file:
       - .env

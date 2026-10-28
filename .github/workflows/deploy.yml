@@ -60,6 +60,9 @@ jobs:
             # Pull new images
             docker pull ${{ secrets.DOCKER_USERNAME }}/notes-backend:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/notes-frontend:latest
+
+            # Export username so docker-compose can read ${DOCKER_USERNAME}
+            export DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
             
             # Stop and remove old containers
             docker-compose down
