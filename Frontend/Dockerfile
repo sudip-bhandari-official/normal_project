@@ -3,10 +3,20 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY . .
+RUN npm run build
 
-# Expose Vite dev server port and run with host binding
-EXPOSE 5173
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# Stage 2: Serve static files and proxy /api using Nginx
+FROM nginx:alpine
+
+# Copy compiled React files from Stage 1
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy custom Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

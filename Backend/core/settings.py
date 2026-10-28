@@ -4,24 +4,32 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables from .env file if it exists
+# Load environment variables from .env file if it exists (for local dev)
 # In Docker, env vars are injected by docker-compose env_file
 load_dotenv(BASE_DIR.parent / '.env', override=False)
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-secret-key')
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-DOMAIN_NAME = os.getenv('DOMAIN_NAME', 'localhost')
-API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:8000/api')
+# Accepts requests from Nginx proxy ('backend') and any domain
+ALLOWED_HOSTS = ['*']
 
-ALLOWED_HOSTS = [    
-    'notes.sudip010.com.np',
-    'localhost',
-    '127.0.0.1',
-    '*',
+# Only needed for local development when running Vite on port 5173
+# In production, Nginx serves both / and /api on the same domain so CORS is bypassed
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
-STATIC_URL = 'static/'
+# Allows Django /admin/ login to work behind the Nginx proxy and locally
+CSRF_TRUSTED_ORIGINS = [
+    "http://backend",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -82,14 +90,6 @@ TEMPLATES = [
             ],
         },
     },
-]
-
-CORS_ALLOWED_ORIGINS = [
-    f"http://{DOMAIN_NAME}:5173",
-    f"https://{DOMAIN_NAME}",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://65.2.57.36:5173", # EC2 IP
 ]
 
 ROOT_URLCONF = 'core.urls'
