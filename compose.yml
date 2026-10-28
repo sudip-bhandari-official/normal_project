@@ -10,18 +10,17 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build: ./Backend
+    image: ${{ secrets.DOCKER_USERNAME }}/notes-backend:latest
     container_name: notes_django_backend
     env_file:
       - .env
-    
     ports:
       - "8000:8000"
     depends_on:
       - db
 
   frontend:
-    build: ./Frontend
+    image: ${{ secrets.DOCKER_USERNAME }}/notes-frontend:latest
     container_name: notes_react_frontend
     env_file:
       - .env
