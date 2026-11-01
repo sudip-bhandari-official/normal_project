@@ -75,13 +75,13 @@ jobs:
             export DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
             
             # Stop and remove old containers
-            docker-compose down
+            docker compose down
             
             # Update .env if needed (or keep existing)
             # ./generate-env.sh  # If you have an env generation script
             
             # Start new containers
-            docker-compose up -d
+            docker compose up -d
             
             # Clean up old images
             docker image prune -f
